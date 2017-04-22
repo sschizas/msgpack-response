@@ -14,8 +14,7 @@
     "expressjs",
     "msgpack",
     "middleware",
-    "json",
-    "nodejs"
+    "json"
   ],
   "author": "Mobiltron Inc <dev@mobiltron.com> (http://mobiltron.com)",
   "contributors": [
