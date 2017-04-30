@@ -28,8 +28,7 @@
   "dependencies": {
     "express-mung": "^0.4.6",
     "lodash": "^4.17.4",
-    "msgpack-lite": "^0.1.26",
-    "type-is": "^1.6.15"
+    "msgpack-lite": "^0.1.26"
   },
   "devDependencies": {
     "assert": "^1.4.1",
