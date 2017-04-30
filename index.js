@@ -27,16 +27,17 @@ var cacheControlNoTransformRegExp = /(?:^|,)\s*?no-transform\s*?(?:,|$)/;
  * @public
  */
 function msgpack (body, req, res) {
-  //Check for cache-control
+  //Check for cache-control.
   if (shouldTransform(req, res) === false) {
     return body;
   }
 
-  //Check if msgpack is supported by client
+  //Check if msgpack is supported by client.
   if (isMgsPackSupported(req, res) === false) {
     return body;
   }
 
+  //Check if body is JSON otherwise don't bother to msgpack it.
 
 }
 
