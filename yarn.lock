@@ -51,6 +51,10 @@ event-lite@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/event-lite/-/event-lite-0.1.1.tgz#47cf08a8d37d0b694cdb7b3b17b51faac6576086"
 
+express-mung@^0.4.6:
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/express-mung/-/express-mung-0.4.6.tgz#2df169d8e91d9a1d8326319eeb2cf281d16b0eba"
+
 fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
