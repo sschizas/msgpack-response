@@ -77,4 +77,4 @@ function shouldTransform (res) {
  * Module exports.
  */
 
-module.exports = mung.jsonAsync(msgpack);
+module.exports = mung.json(msgpack);
