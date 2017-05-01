@@ -27,9 +27,9 @@
     "url": "https://github.com/MobiltronInc/msgpack-response/issues"
   },
   "dependencies": {
-    "express-mung": "^0.4.6",
     "lodash": "^4.17.4",
-    "msgpack-lite": "^0.1.26"
+    "msgpack-lite": "^0.1.26",
+    "on-headers": "^1.0.1"
   },
   "devDependencies": {
     "assert": "^1.4.1",

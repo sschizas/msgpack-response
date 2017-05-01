@@ -9,7 +9,7 @@
  * Module dependencies.
  */
 const _ = require('lodash');
-const mung = require('express-mung');
+const onHeaders = require('on-headers')
 const msgpackLite = require('msgpack-lite');
 
 /**
@@ -26,24 +26,181 @@ var cacheControlNoTransformRegExp = /(?:^|,)\s*?no-transform\s*?(?:,|$)/;
  * @return {Function} middleware
  * @public
  */
-module.exports = function(options) {
+function mgsPackResponse (options) {
+  var opts = options || {};
+  var filter = shouldMsgPack;
 
-  return function(req, res, next) {
-    // Implement the middleware function based on the options object
+  return function _mgsPackResponse(req, res, next) {
+    var ended = false;
+    var length;
+    var listeners = [];
+    var stream;
+    var _end = res.end;
+    var _on = res.on;
+    var _write = res.write;
+
+    // flush
+    res.flush = function flush () {
+      if (stream) {
+        stream.flush()
+      }
+    };
+
+    // proxy
+    res.write = function write (chunk, encoding) {
+      if (ended) {
+        return false
+      }
+
+      if (!this._header) {
+        this._implicitHeader()
+      }
+      return stream
+        ? stream.write(new Buffer(chunk, encoding))
+        : _write.call(this, chunk, encoding)
+    };
+
+    //end
+    res.end = function end (chunk, encoding) {
+      if (ended) {
+        return false
+      }
+
+      if (!this._header) {
+        // estimate the length
+        if (!this.getHeader('Content-Length')) {
+          length = chunkLength(chunk, encoding)
+        }
+
+        this._implicitHeader()
+      }
+
+      if (!stream) {
+        return _end.call(this, chunk, encoding)
+      }
+
+      // mark ended
+      ended = true;
+
+      // write Buffer for Node.js 0.8
+      return chunk
+        ? stream.end(new Buffer(chunk, encoding))
+        : stream.end()
+    };
+
+    res.on = function on (type, listener) {
+      if (!listeners || type !== 'drain') {
+        return _on.call(this, type, listener)
+      }
+
+      if (stream) {
+        return stream.on(type, listener)
+      }
+
+      // buffer listeners for future stream
+      listeners.push([type, listener]);
+
+      return this
+    };
+
+    function noMsgPacking() {
+      addListeners(res, _on, listeners);
+      listeners = null
+    };
+
+    onHeaders(res, function onResponseHeaders () {
+      // determine if request is filtered
+      if (!filter(req, res)) {
+        noMsgPacking();
+        return
+      }
+
+      // determine if the entity should be transformed
+      if (!shouldTransform(req, res)) {
+        noMsgPacking();
+        return
+      }
+
+      var encoding = res.getHeader('Content-Encoding') || 'identity';
+
+      // already msg packed
+      if (res.get('Content-Type') === 'application/x-msgpack') {
+        noMsgPacking();
+        return
+      }
+
+      // head
+      if (req.method === 'HEAD') {
+        noMsgPacking();
+        return
+      }
+
+      // compression method
+      var accept = accepts(req)
+      var method = accept.encoding(['gzip', 'deflate', 'identity'])
+
+      // we really don't prefer deflate
+      if (method === 'deflate' && accept.encoding(['gzip'])) {
+        method = accept.encoding(['gzip', 'identity'])
+      }
+
+      // negotiation failed
+      if (!method || method === 'identity') {
+        nocompress('not acceptable')
+        return
+      }
+
+      // compression stream
+      debug('%s compression', method)
+      stream = method === 'gzip'
+        ? zlib.createGzip(opts)
+        : zlib.createDeflate(opts)
+
+      // add buffered listeners to stream
+      addListeners(stream, stream.on, listeners)
+
+      // header fields
+      res.setHeader('Content-Encoding', method)
+      res.removeHeader('Content-Length')
+
+      // compression
+      stream.on('data', function onStreamData (chunk) {
+        if (_write.call(res, chunk) === false) {
+          stream.pause()
+        }
+      });
+
+      stream.on('end', function onStreamEnd () {
+        _end.call(res)
+      });
+
+      _on.call(res, 'drain', function onResponseDrain () {
+        stream.resume()
+      })
+
+    });
+
     next()
   }
-};
+}
 
 
 /**
- * Determine if the response body is JSON.
+ * Default filter function.
  * @private
  */
-function isJSON(obj) {
-  if(obj instanceof Array || obj instanceof Object) {
-    return true
-  }
-  return false
+function shouldMsgPack(req, res) {
+  return isMgsPackSupported(req) === true && isJSON(res) === true;
+}
+
+
+/**
+ * Determine if the response is JSON.
+ * @private
+ */
+function isJSON(res) {
+  var type = res.get('Content-Type');
+  return _.isNil(type) === false && type === 'application/json';
 }
 
 
@@ -52,7 +209,7 @@ function isJSON(obj) {
  * @private
  */
 function isMgsPackSupported (req) {
-  var acceptType = req.header('accept');
+  var acceptType = req.get('accept');
   return _.isNil(acceptType) === false && acceptType === 'application/x-msgpack'
 }
 
@@ -62,9 +219,16 @@ function isMgsPackSupported (req) {
  * @private
  */
 function shouldTransform (res) {
-  var cacheControl = res.header['cache-control'];
+  var cacheControl = res.get['cache-control'];
 
   // Don't compress for Cache-Control: no-transform
   // https://tools.ietf.org/html/rfc7234#section-5.2.2.4
   return _.isNil(cacheControl) === false || !cacheControlNoTransformRegExp.test(cacheControl);
 }
+
+/**
+ * Module exports.
+ * @public
+ */
+
+module.exports = mgsPackResponse;
