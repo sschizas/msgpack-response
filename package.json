@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "ExpressJS msgpack response middleware",
   "scripts": {
-    "test": "test"
+    "test": "mocha --reporter spec --check-leaks --bail test/",
+    "coverage": "istanbul cover _mocha -- -R spec"
   },
   "repository": {
     "type": "git",
@@ -43,10 +44,6 @@
   ],
   "engines": {
     "node": ">= 6.0"
-  },
-  "scripts": {
-    "test": "mocha --reporter spec --check-leaks --bail test/",
-    "coverage": "istanbul cover _mocha -- -R spec"
   },
   "homepage": "https://github.com/MobiltronInc/msgpack-response#readme"
 }

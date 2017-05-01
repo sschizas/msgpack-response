@@ -42,12 +42,12 @@ function msgpack (body, req, res) {
   }
 
   //Msgpack body
-  var encodedBody = msgpackLite.encode(body);
+  var encodedBody = msgpackLite.encode(body).toString('hex');
 
   // header fields
   res.removeHeader('Content-Length');
   res.set('Content-Type', 'application/x-msgpack');
-  return encodedBody.data;
+  return encodedBody;
 }
 
 
