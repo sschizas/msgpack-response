@@ -22,37 +22,17 @@ var cacheControlNoTransformRegExp = /(?:^|,)\s*?no-transform\s*?(?:,|$)/;
 /**
  * Transform response data using msgpack.
  *
+ * @param {Object} [options]
  * @return {Function} middleware
  * @public
  */
-function msgpack (body, req, res) {
-  //Check if it is JSON otherwise don't bother to msgpack it.
-  if (isJSON(body) === false) {
-    return body;
+function msgpack (options) {
+
+  return function compression (req, res, next) {
+
+
+    next()
   }
-
-  //Check for cache-control.
-  if (shouldTransform(res) === false) {
-    return body;
-  }
-
-  //Check if msgpack is supported by client.
-  if (isMgsPackSupported(req) === false) {
-    return body;
-  }
-
-  //Msgpack body
-  var encodedBody = msgpackLite.encode(body).toString('hex');
-
-  // header fields
-  res.removeHeader('Content-Length');
-  res.set('X-Content-Type', 'application/x-msgpack');
-  return encodedBody;
-}
-
-
-function msgpackHeaders(req, res) {
-  console.log(res.headers);
 }
 
 
@@ -94,5 +74,5 @@ function shouldTransform (res) {
 /**
  * Module exports.
  */
-mung.headers(msgpackHeaders);
-module.exports = mung.json(msgpack);
+
+module.exports = msgpack;
