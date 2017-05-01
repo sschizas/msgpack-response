@@ -40,3 +40,4 @@ jspm_packages
 /.idea/msgpack-response.iml
 /.idea/vcs.xml
 /.idea/workspace.xml
+/coverage

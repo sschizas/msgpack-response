@@ -47,7 +47,7 @@ function msgpack (body, req, res) {
   // header fields
   res.removeHeader('Content-Length');
   res.set('Content-Type', 'application/x-msgpack');
-  return encodedBody;
+  return encodedBody.data;
 }
 
 

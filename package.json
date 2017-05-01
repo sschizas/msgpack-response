@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "assert": "^1.4.1",
+    "istanbul": "^0.4.5",
     "mocha": "^3.2.0"
   },
   "files": [
@@ -42,6 +43,10 @@
   ],
   "engines": {
     "node": ">= 6.0"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --check-leaks --bail test/",
+    "coverage": "istanbul cover _mocha -- -R spec"
   },
   "homepage": "https://github.com/MobiltronInc/msgpack-response#readme"
 }
