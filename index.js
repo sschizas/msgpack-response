@@ -106,7 +106,7 @@ function mgsPackResponse (options) {
     function noMsgPacking() {
       addListeners(res, _on, listeners);
       listeners = null
-    };
+    }
 
     onHeaders(res, function onResponseHeaders () {
       // determine if request is filtered
@@ -121,8 +121,6 @@ function mgsPackResponse (options) {
         return
       }
 
-      var encoding = res.getHeader('Content-Encoding') || 'identity';
-
       // already msg packed
       if (res.get('Content-Type') === 'application/x-msgpack') {
         noMsgPacking();
@@ -135,48 +133,30 @@ function mgsPackResponse (options) {
         return
       }
 
-      // compression method
-      var accept = accepts(req)
-      var method = accept.encoding(['gzip', 'deflate', 'identity'])
-
-      // we really don't prefer deflate
-      if (method === 'deflate' && accept.encoding(['gzip'])) {
-        method = accept.encoding(['gzip', 'identity'])
-      }
-
-      // negotiation failed
-      if (!method || method === 'identity') {
-        nocompress('not acceptable')
-        return
-      }
-
-      // compression stream
-      debug('%s compression', method)
-      stream = method === 'gzip'
-        ? zlib.createGzip(opts)
-        : zlib.createDeflate(opts)
-
-      // add buffered listeners to stream
-      addListeners(stream, stream.on, listeners)
-
-      // header fields
-      res.setHeader('Content-Encoding', method)
-      res.removeHeader('Content-Length')
-
-      // compression
-      stream.on('data', function onStreamData (chunk) {
-        if (_write.call(res, chunk) === false) {
-          stream.pause()
-        }
-      });
-
-      stream.on('end', function onStreamEnd () {
-        _end.call(res)
-      });
-
-      _on.call(res, 'drain', function onResponseDrain () {
-        stream.resume()
-      })
+      // // msgpackLite stream
+      // stream = msgpackLite.createEncodeStream();
+      //
+      // // add buffered listeners to stream
+      // addListeners(stream, stream.on, listeners)
+      //
+      // // header fields
+      // res.setHeader('Content-Encoding', method)
+      // res.removeHeader('Content-Length')
+      //
+      // // compression
+      // stream.on('data', function onStreamData (chunk) {
+      //   if (_write.call(res, chunk) === false) {
+      //     stream.pause()
+      //   }
+      // });
+      //
+      // stream.on('end', function onStreamEnd () {
+      //   _end.call(res)
+      // });
+      //
+      // _on.call(res, 'drain', function onResponseDrain () {
+      //   stream.resume()
+      // })
 
     });
 
@@ -224,6 +204,17 @@ function shouldTransform (res) {
   // Don't compress for Cache-Control: no-transform
   // https://tools.ietf.org/html/rfc7234#section-5.2.2.4
   return _.isNil(cacheControl) === false || !cacheControlNoTransformRegExp.test(cacheControl);
+}
+
+/**
+ * Add bufferred listeners to stream
+ * @private
+ */
+
+function addListeners (stream, on, listeners) {
+  for (var i = 0; i < listeners.length; i++) {
+    on.apply(stream, listeners[i])
+  }
 }
 
 /**
