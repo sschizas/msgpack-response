@@ -26,14 +26,13 @@ var cacheControlNoTransformRegExp = /(?:^|,)\s*?no-transform\s*?(?:,|$)/;
  * @return {Function} middleware
  * @public
  */
-function msgpack (options) {
+module.exports = function(options) {
 
-  return function compression (req, res, next) {
-
-
+  return function(req, res, next) {
+    // Implement the middleware function based on the options object
     next()
   }
-}
+};
 
 
 /**
@@ -69,10 +68,3 @@ function shouldTransform (res) {
   // https://tools.ietf.org/html/rfc7234#section-5.2.2.4
   return _.isNil(cacheControl) === false || !cacheControlNoTransformRegExp.test(cacheControl);
 }
-
-
-/**
- * Module exports.
- */
-
-module.exports = msgpack;
