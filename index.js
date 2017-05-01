@@ -180,7 +180,7 @@ function shouldMsgPack(req, res) {
  */
 function isJSON(res) {
   var type = res.get('Content-Type');
-  return _.isNil(type) === false && type.match(/application\/json/i);
+  return _.isNil(type) === false && type.match(/application\/json/)[0] === 'application/json'
 }
 
 
