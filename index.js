@@ -27,7 +27,7 @@ var cacheControlNoTransformRegExp = /(?:^|,)\s*?no-transform\s*?(?:,|$)/;
  */
 function msgpack (body, req, res) {
   //Check if it is JSON otherwise don't bother to msgpack it.
-  if (res.headers['Content-Type'] !== 'application/json') {
+  if (!res.is('json')) {
     return body;
   }
 
@@ -56,7 +56,8 @@ function msgpack (body, req, res) {
  * @private
  */
 function isMgsPackSupported (req) {
-  return _.isNil(req.headers['Accept']) === false && req.headers['Accept'] === 'application/x-msgpack'
+  var acceptType = req.header('accept');
+  return _.isNil(acceptType) === false && acceptType === 'application/x-msgpack'
 }
 
 
@@ -65,7 +66,7 @@ function isMgsPackSupported (req) {
  * @private
  */
 function shouldTransform (res) {
-  var cacheControl = res.headers['Cache-Control'];
+  var cacheControl = res.header['cache-control'];
 
   // Don't compress for Cache-Control: no-transform
   // https://tools.ietf.org/html/rfc7234#section-5.2.2.4
