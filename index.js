@@ -46,17 +46,27 @@ function msgpack (body, req, res) {
 
   // header fields
   res.removeHeader('Content-Length');
-  res.set('Content-Type', 'application/x-msgpack');
+  res.set('X-Content-Type', 'application/x-msgpack');
   return encodedBody;
 }
 
 
+function msgpackHeaders(req, res) {
+
+}
+
+
+/**
+ * Determine if the response body is JSON.
+ * @private
+ */
 function isJSON(obj) {
   if(obj instanceof Array || obj instanceof Object) {
     return true
   }
   return false
 }
+
 
 /**
  * Determine if the request supports msgpack.
@@ -84,5 +94,5 @@ function shouldTransform (res) {
 /**
  * Module exports.
  */
-
+mung.headers(msgpackHeaders);
 module.exports = mung.json(msgpack);
