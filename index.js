@@ -43,6 +43,11 @@ function mgsPackResponse () {
       }
     };
 
+    res.json = function(chunk) {
+      console.log(chunk);
+      stream.write(chunk, 'utf-8');
+    };
+
     // proxy
     res.write = function write(chunk, encoding) {
       if (ended) {
