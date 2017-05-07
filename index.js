@@ -44,8 +44,7 @@ function mgsPackResponse () {
     };
 
     res.json = function(chunk) {
-      console.log(chunk);
-      res.write(chunk, 'utf-8');
+      res.write(JSON.stringify(chunk), 'utf-8');
     };
 
     // proxy
@@ -57,8 +56,6 @@ function mgsPackResponse () {
       if (!this._header) {
         this._implicitHeader()
       }
-
-      console.log(chunk);
 
       return stream
         ? stream.write(new Buffer(chunk, encoding))
@@ -131,7 +128,6 @@ function mgsPackResponse () {
       }
 
       stream = msgpackLite.createEncodeStream();
-      console.log(req.body);
 
       addListeners(stream, stream.on, listeners);
 
