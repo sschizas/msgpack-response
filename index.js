@@ -22,12 +22,10 @@ var cacheControlNoTransformRegExp = /(?:^|,)\s*?no-transform\s*?(?:,|$)/;
 /**
  * Transform response data using msgpack.
  *
- * @param {Object} [options]
  * @return {Function} middleware
  * @public
  */
-function mgsPackResponse (options) {
-  var opts = options || {};
+function mgsPackResponse () {
 
   return function _mgsPackResponse(req, res, next) {
     var ended = false;
