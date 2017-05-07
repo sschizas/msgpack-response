@@ -28,7 +28,6 @@ var cacheControlNoTransformRegExp = /(?:^|,)\s*?no-transform\s*?(?:,|$)/;
  */
 function mgsPackResponse (options) {
   var opts = options || {};
-  var filter = shouldMsgPack;
 
   return function _mgsPackResponse(req, res, next) {
     var ended = false;
@@ -109,8 +108,7 @@ function mgsPackResponse (options) {
     }
 
     onHeaders(res, function onResponseHeaders () {
-      // determine if request is filtered
-      if (!filter(req, res)) {
+      if (!shouldMsgPack(req, res)) {
         noMsgPacking();
         return;
       }
@@ -127,10 +125,7 @@ function mgsPackResponse (options) {
         return;
       }
 
-      console.error('Compressing to msgpack');
       stream = msgpackLite.createEncodeStream();
-
-      console.log(stream);
 
       addListeners(stream, stream.on, listeners);
 
@@ -156,7 +151,6 @@ function mgsPackResponse (options) {
   }
 }
 
-
 function chunkLength (chunk, encoding) {
   if (!chunk) {
     return 0
@@ -167,7 +161,6 @@ function chunkLength (chunk, encoding) {
     : chunk.length
 }
 
-
 /**
  * Default filter function.
  * @private
@@ -175,7 +168,6 @@ function chunkLength (chunk, encoding) {
 function shouldMsgPack(req, res) {
   return isMgsPackSupported(req) === true && isJSON(res) === true;
 }
-
 
 /**
  * Determine if the response is JSON.
@@ -185,7 +177,6 @@ function isJSON(res) {
   var type = res.get('Content-Type');
   return _.isNil(type) === false && type.match(/application\/json/)[0] === 'application/json'
 }
-
 
 /**
  * Determine if the request supports msgpack.
@@ -211,5 +202,4 @@ function addListeners (stream, on, listeners) {
  * Module exports.
  * @public
  */
-
 module.exports = mgsPackResponse;
