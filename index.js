@@ -128,8 +128,7 @@ function mgsPackResponse (options) {
       }
 
       console.error('Compressing to msgpack');
-      msgPackLiteStream = msgpackLite.createEncodeStream();
-      stream = msgPackLiteStream.pipe(stream);
+      stream = msgpackLite.createEncodeStream();
 
       console.log(stream);
 
