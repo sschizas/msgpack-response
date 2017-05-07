@@ -166,32 +166,16 @@ function chunkLength (chunk, encoding) {
  * @private
  */
 function shouldMsgPack(req, res) {
-  return isMgsPackSupported(req) === true && isJSON(res) === true;
-}
-
-/**
- * Determine if the response is JSON.
- * @private
- */
-function isJSON(res) {
-  var type = res.get('Content-Type');
-  return _.isNil(type) === false && type.match(/application\/json/)[0] === 'application/json'
-}
-
-/**
- * Determine if the request supports msgpack.
- * @private
- */
-function isMgsPackSupported (req) {
   var acceptType = req.get('accept');
-  return _.isNil(acceptType) === false && acceptType === 'application/x-msgpack'
+  var type = res.get('Content-Type');
+
+  return _.isNil(acceptType) === false && acceptType === 'application/x-msgpack' && _.isNil(type) === false && type.match(/application\/json/)[0] === 'application/json';
 }
 
 /**
  * Add bufferred listeners to stream
  * @private
  */
-
 function addListeners (stream, on, listeners) {
   for (var i = 0; i < listeners.length; i++) {
     on.apply(stream, listeners[i])
