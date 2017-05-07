@@ -25,6 +25,7 @@ function mgsPackResponse() {
     if (shouldMsgPack(req, res)) {
       res.json = function(jsonResponse) {
         res.setHeader('Content-Type', 'application/x-msgpack');
+        res.removeHeader('Content-Length');
         res.send(msgpackLite.encode(jsonResponse));
       };
     }
