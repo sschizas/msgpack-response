@@ -62,7 +62,7 @@ function mgsPackResponse (options) {
     //end
     res.end = function end (chunk, encoding) {
       if (ended) {
-        return false
+        return false;
       }
 
       if (!this._header) {
@@ -87,7 +87,7 @@ function mgsPackResponse (options) {
         : stream.end()
     };
 
-    res.on = function on (type, listener) {
+    res.on = function on(type, listener) {
       if (!listeners || type !== 'drain') {
         return _on.call(this, type, listener)
       }
@@ -99,12 +99,12 @@ function mgsPackResponse (options) {
       // buffer listeners for future stream
       listeners.push([type, listener]);
 
-      return this
+      return this;
     };
 
     function noMsgPacking() {
       addListeners(res, _on, listeners);
-      listeners = null
+      listeners = null;
     }
 
     onHeaders(res, function onResponseHeaders () {
@@ -143,7 +143,7 @@ function mgsPackResponse (options) {
       });
       
       _on.call(res, 'drain', function onResponseDrain () {
-        stream.resume()
+        stream.resume();
       });
     });
 
