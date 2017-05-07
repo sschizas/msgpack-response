@@ -23,6 +23,8 @@ function mgsPackResponse() {
 
   return function _mgsPackResponse(req, res, next) {
     if (shouldMsgPack(req, res)) {
+      console.log(res.json);
+
       res.json = function(jsonResponse) {
         console.log(jsonResponse);
         res.setHeader('Content-Type', 'application/x-msgpack');
@@ -41,9 +43,8 @@ function mgsPackResponse() {
  */
 function shouldMsgPack(req, res) {
   var acceptType = req.get('accept');
-  var type = res.get('Content-Type');
 
-  return _.isNil(acceptType) === false && acceptType === 'application/x-msgpack' && _.isNil(type) === false && type.match(/application\/json/)[0] === 'application/json';
+  return !_.isNil(acceptType) && acceptType === 'application/x-msgpack';
 }
 
 /**
