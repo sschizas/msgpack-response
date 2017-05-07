@@ -44,7 +44,7 @@ function mgsPackResponse () {
     };
 
     // proxy
-    res.write = function write (chunk, encoding) {
+    res.write = function write(chunk, encoding) {
       if (ended) {
         return false
       }
@@ -52,6 +52,9 @@ function mgsPackResponse () {
       if (!this._header) {
         this._implicitHeader()
       }
+
+      console.log(chunk);
+
       return stream
         ? stream.write(new Buffer(chunk, encoding))
         : _write.call(this, chunk, encoding)
@@ -79,7 +82,6 @@ function mgsPackResponse () {
       // mark ended
       ended = true;
 
-      // write Buffer for Node.js 0.8
       return chunk
         ? stream.end(new Buffer(chunk, encoding))
         : stream.end()
