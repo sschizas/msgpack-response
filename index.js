@@ -122,7 +122,7 @@ function mgsPackResponse (options) {
       }
 
       // already msg packed
-      if (res.get('Content-Type') === 'application/x-msgpack') {
+      if (res.get('Content-Type') === 'application/json') {
         noMsgPacking();
         return;
       }
