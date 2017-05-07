@@ -126,6 +126,7 @@ function mgsPackResponse () {
       }
 
       stream = msgpackLite.createEncodeStream();
+      console.log(req.body);
 
       addListeners(stream, stream.on, listeners);
 
