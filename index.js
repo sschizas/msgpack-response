@@ -115,12 +115,6 @@ function mgsPackResponse (options) {
         return;
       }
 
-      // determine if the entity should be transformed
-      if (!shouldTransform(req, res)) {
-        noMsgPacking();
-        return;
-      }
-
       // already msg packed
       if (res.get('Content-Type') === 'application/json') {
         noMsgPacking();
@@ -199,19 +193,6 @@ function isJSON(res) {
 function isMgsPackSupported (req) {
   var acceptType = req.get('accept');
   return _.isNil(acceptType) === false && acceptType === 'application/x-msgpack'
-}
-
-
-/**
- * Determine if the entity should be transformed.
- * @private
- */
-function shouldTransform (res) {
-  var cacheControl = res.get['cache-control'];
-
-  // Don't compress for Cache-Control: no-transform
-  // https://tools.ietf.org/html/rfc7234#section-5.2.2.4
-  return _.isNil(cacheControl) === false || !cacheControlNoTransformRegExp.test(cacheControl);
 }
 
 /**
