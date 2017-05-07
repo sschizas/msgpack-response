@@ -112,56 +112,64 @@ function mgsPackResponse (options) {
       // determine if request is filtered
       if (!filter(req, res)) {
         noMsgPacking();
-        return
+        return;
       }
 
       // determine if the entity should be transformed
       if (!shouldTransform(req, res)) {
         noMsgPacking();
-        return
+        return;
       }
 
       // already msg packed
       if (res.get('Content-Type') === 'application/x-msgpack') {
         noMsgPacking();
-        return
+        return;
       }
 
       // head
       if (req.method === 'HEAD') {
         noMsgPacking();
-        return
+        return;
       }
 
-      // // msgpackLite stream
-      // stream = msgpackLite.createEncodeStream();
-      //
-      // // add buffered listeners to stream
-      // addListeners(stream, stream.on, listeners)
-      //
-      // // header fields
-      // res.setHeader('Content-Encoding', method)
-      // res.removeHeader('Content-Length')
-      //
-      // // compression
-      // stream.on('data', function onStreamData (chunk) {
-      //   if (_write.call(res, chunk) === false) {
-      //     stream.pause()
-      //   }
-      // });
-      //
-      // stream.on('end', function onStreamEnd () {
-      //   _end.call(res)
-      // });
-      //
-      // _on.call(res, 'drain', function onResponseDrain () {
-      //   stream.resume()
-      // })
+      msgPackLiteStream = msgpackLite.createEncodeStream();
+      msgPackLiteStream.pipe(stream);
+      stream = msgPackLiteStream;
 
+      addListeners(stream, stream.on, listeners);
+
+      res.setHeader('Content-Type', 'application/x-msgpack');
+      res.removeHeader('Content-Length');
+      
+      stream.on('data', function onStreamData (chunk) {
+        if (_write.call(res, chunk) === false) {
+          stream.pause()
+        }
+      });
+      
+      stream.on('end', function onStreamEnd () {
+         _end.call(res)
+      });
+      
+      _on.call(res, 'drain', function onResponseDrain () {
+        stream.resume()
+      });
     });
 
-    next()
+    next();
   }
+}
+
+
+function chunkLength (chunk, encoding) {
+  if (!chunk) {
+    return 0
+  }
+
+  return !Buffer.isBuffer(chunk)
+    ? Buffer.byteLength(chunk, encoding)
+    : chunk.length
 }
 
 

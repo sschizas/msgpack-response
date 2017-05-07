@@ -17,10 +17,10 @@
     "middleware",
     "json"
   ],
-  "author": "Mobiltron Inc <dev@mobiltron.com> (http://mobiltron.com)",
+  "author": "Mobiltron Inc <dev@mobiltron.com> (http://mobiltron.com/)",
   "contributors": [
-    "Stavros Schizas <stavros@mobiltron.com> (http://mobiltron.com)",
-    "Vassilios Karakoidas <v.karakoidas@mobiltron.com> (http://bkarak.wizhut.com/blog/)"
+    "Stavros Schizas <stavros@mobiltron.com> (http://mobiltron.com/)",
+    "Vassilios Karakoidas <v.karakoidas@mobiltron.com> (http://bkarak.wizhut.com/)"
   ],
   "license": "MIT",
   "bugs": {
