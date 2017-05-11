@@ -10,6 +10,8 @@ __Features__
 
 ## Getting Started
 
+There are two ways to 
+
 ```javascript
 
 ```

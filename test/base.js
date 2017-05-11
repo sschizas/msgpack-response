@@ -7,7 +7,7 @@ const msgpackLite = require('msgpack-lite');
 const msgPack = require('../index.js');
 
 let app = null;
-let sample_json = {'da test': 'worked'};
+let sample_json = {"da test": "worked"};
 let sample_encoded = msgpackLite.encode(sample_json);
 let sample_encoded_size = _.size(sample_encoded);
 
