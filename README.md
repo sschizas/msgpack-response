@@ -1,6 +1,6 @@
 # msgpack-response
 [![Build Status](https://travis-ci.org/MobiltronInc/msgpack-response.svg?branch=master)](https://travis-ci.org/MobiltronInc/msgpack-response)
-[![Dependency Status](https://david-dm.org/imobiltroninc/msgpack-response.svg)](https://github.com/MobiltronInc/msgpack-response)
+[![Dependency Status](https://david-dm.org/MobiltronInc/msgpack-response.svg)](https://github.com/MobiltronInc/msgpack-response)
 
 An implementation of [Message Pack](http://msgpack.org/) middleware for [ExpressJS](https://expressjs.com/).
 
