@@ -9,10 +9,24 @@ __Features__
 * Extension of the current ExpressJS API; Introducing the `Response.msgPack(jsObject)` method on the standard [ExpressJS Response](https://expressjs.com/en/4x/api.html#res) object.
 
 ## Getting Started
-
+With auto detection and transformation enabled
 ```javascript
+const msgpackResponse = require('msgpack-response');
 
+app.use(msgpackResponse({auto_detect: true}));
 ```
+
+Also it can have auto detection and transformation disable.
+```javascript
+const msgpackResponse = require('msgpack-response');
+
+app.use(msgpackResponse({auto_detect: false}));
+//or
+app.use(msgpackResponse());
+```
+
+When auto detect is disable it still possible to respond back with msgpack using
+`res.msgPack(jsObject)` insted of `res.json(jsObject)`.
 
 ## Requirements
 Node.js >= 6.0
