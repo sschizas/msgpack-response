@@ -1,0 +1,50 @@
+{
+  "name": "msgpack-response",
+  "version": "1.0.0",
+  "description": "ExpressJS msgpack response middleware",
+  "scripts": {
+    "test": "mocha --reporter spec --check-leaks --bail test/",
+    "coverage": "istanbul cover _mocha -- -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MobiltronInc/msgpack-response.git"
+  },
+  "keywords": [
+    "express",
+    "expressjs",
+    "msgpack",
+    "middleware",
+    "json"
+  ],
+  "author": "Mobiltron Inc <dev@mobiltron.com> (http://mobiltron.com/)",
+  "contributors": [
+    "Stavros Schizas <stavros@mobiltron.com> (http://mobiltron.com/)",
+    "Vassilios Karakoidas <v.karakoidas@mobiltron.com> (http://mobiltron.com/)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MobiltronInc/msgpack-response/issues"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "msgpack-lite": "^0.1.26"
+  },
+  "devDependencies": {
+    "assert": "^1.4.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "express": "^4.15.2",
+    "supertest": "^3.0.0"
+  },
+  "files": [
+    "LICENSE.md",
+    "README.md",
+    "CHANGELOG.md",
+    "index.js"
+  ],
+  "engines": {
+    "node": ">= 6.0"
+  },
+  "homepage": "https://github.com/MobiltronInc/msgpack-response#readme"
+}
