@@ -19,19 +19,32 @@ const msgpackLite = require('msgpack-lite');
  * @return {Function} middleware
  * @public
  */
-function mgsPackResponse() {
+function mgsPackResponse(options) {
+  let autoDetect = false;
+
+  if (!_.isUndefined(options)) {
+    autoDetect = options.auto_detect || false;
+  }
 
   return function _mgsPackResponse(req, res, next) {
     if (shouldMsgPack(req, res)) {
-      console.log(res.json);
-
-      res.json = function(jsonResponse) {
-        console.log(jsonResponse);
-        res.setHeader('Content-Type', 'application/x-msgpack');
-        res.removeHeader('Content-Length');
-        res.send(msgpackLite.encode(jsonResponse));
+      if (autoDetect) {
+        res.json = function(jsObject) {
+          res.setHeader('Content-Type', 'application/x-msgpack');
+          res.removeHeader('Content-Length');
+          var encodedResponse = msgpackLite.encode(jsObject);
+          res.setHeader('Content-Length', _.size(encodedResponse));
+          res.send(encodedResponse);
+        }
       };
     }
+
+    res.msgPack = function(jsObject) {
+      res.setHeader('Content-Type', 'application/x-msgpack');
+      var encodedResponse = msgpackLite.encode(jsObject);
+      res.setHeader('Content-Length', _.size(encodedResponse));
+      res.send(encodedResponse);      
+    };
 
     next();
   };

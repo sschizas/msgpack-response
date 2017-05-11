@@ -41,4 +41,3 @@ jspm_packages
 /.idea/vcs.xml
 /.idea/workspace.xml
 /coverage
-local_test.js

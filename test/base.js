@@ -1,26 +1,87 @@
-var assert = require('assert');
+const assert = require('assert');
+const _ = require('lodash');
+const express = require('express');
+const request = require('supertest');
+const msgpackLite = require('msgpack-lite');
 
-var Cache = require('../index.js').Cache;
+const msgPack = require('../index.js');
 
-var cache = null;
+let app = null;
+let sample_json = {'da test': 'worked'};
+let sample_encoded = msgpackLite.encode(sample_json);
+let sample_encoded_size = _.size(sample_encoded);
+
 
 describe('Base Functionality', function() {
   before(function() {
-    cache = new Cache();
+    app = express();
+
+    app.use(msgPack({auto_detect: true}));
+    app.get('/test_json', function(req, res) {
+	    res.status(200).json(sample_json);
+    });
+    app.get('/test_msgpack', function(req, res) {
+      res.status(200).msgPack(sample_json);
+    });    
   });
 
-  describe('#set/get', function() {
-    it('Set/Get a value in the local cache', function(done) {
-      var result = cache.set('test-key', 'test-value');
-      assert.equal(true, result, 'Cache.set() failed!');
-      assert.equal('test-value', cache.get('test-key'), 'Cache.get() value is not returning test-value');
-      done();
+  describe('#Demo App Test Requests (auto-detect JSON)', function() {
+    it('Count Encoded Message Bytes', function(done) {
+      request(app)
+        .get('/test_json')
+        .set('Accept', 'application/x-msgpack')
+        .expect('Content-Type', /msgpack/)
+        .expect(200)
+        .end(function(err, res) {
+          assert.ifError(err);
+          let response_size = _.size(res.text);
+          assert.equal(sample_encoded_size, response_size, `Response size is not correct (${sample_encoded_size} != ${response_size})`);
+          done();
+        });
+      
     });
 
-    it('Set/Get a boolean value in the local cache', function(done) {
-      assert.equal(true, cache.set('test-boolean', true), 'Cache.set() -> Boolean failed');
-      assert.equal(true, cache.get('test-boolean'), 'Cache.get() -> Boolean failed');
-      done();
+    it('Check Decoded Response Structure', function(done) {
+      request(app)        
+        .get('/test_json')
+        .set('Accept', 'application/x-msgpack')
+        .expect('Content-Type', /msgpack/)
+        .expect(200)
+        .end(function(err, res) {
+          assert.ifError(err);          
+          //let decoded_json = msgpackLite.decode(res.);
+          //assert.deepEqual(sample_json, decoded_json, `Decoded JSON is not equal with the original (${decoded_json} != ${sample_json})`);
+          done();
+        });
+    });    
+  });
+
+  describe('#Demo App Test Requests (msgPack() extension method)', function() {
+    it('Count Encoded Message Bytes', function(done) {
+      request(app)        
+        .get('/test_msgpack')
+        .set('Accept', 'application/x-msgpack')
+        .expect('Content-Type', /msgpack/)
+        .expect(200)
+        .end(function(err, res) {
+          assert.ifError(err);
+          let response_size = _.size(res.text);          
+          assert.equal(sample_encoded_size, response_size, `Response size is not correct (${sample_encoded_size} != ${response_size})`);          
+          done();
+        });
     });
+
+    it('Check Decoded Response Structure', function(done) {
+      request(app)              
+        .get('/test_msgpack')
+        .set('Accept', 'application/x-msgpack')
+        .expect('Content-Type', /msgpack/)
+        .expect(200)
+        .end(function(err, res) {
+          assert.ifError(err);
+          //let decoded_json = msgpackLite.decode(res.text);          
+          done();
+        });
+    });    
   });
 });

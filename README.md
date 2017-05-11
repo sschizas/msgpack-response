@@ -1,11 +1,11 @@
 # msgpack-response
 [![Dependency Status](https://david-dm.org/imobiltroninc/msgpack-response.svg)](https://github.com/MobiltronInc/msgpack-response)
 
-An implementation of [ps-cache](https://github.com/MobiltronInc/ps-cache), pubsub caching library, using [pusher.com](https://pusher.com/) real-time messaging medium.
+An implementation of [Message Pack](http://msgpack.org/) middleware for [ExpressJS](https://expressjs.com/).
 
 __Features__
-* Local in memory caching
-* Real-time cache invalidation
+* Automatic Message Pack detection (from the HTTP headers) and encoding of all JSON messages to Message Pack.
+* Extension of the current ExpressJS API; Introducing the `Response.msgPack(jsObject)` method on the standard [ExpressJS Response](https://expressjs.com/en/4x/api.html#res) object.
 
 ## Getting Started
 
@@ -20,7 +20,7 @@ Node.js >= 6.0
 
 With [npm](https://www.npmjs.com/) do:
 
-```ruby
+```bash
 npm install msgpack-response -save
 ```
 
