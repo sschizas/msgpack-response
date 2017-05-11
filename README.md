@@ -9,12 +9,35 @@ __Features__
 * Extension of the current ExpressJS API; Introducing the `Response.msgPack(jsObject)` method on the standard [ExpressJS Response](https://expressjs.com/en/4x/api.html#res) object.
 
 ## Getting Started
-
-There are two ways to 
+With auto-detection and transformation enabled, the middleware detects automatically the HTTP header `Accept: application/x-msgpack` and piggybacks the `Response.json()` method of the ExpressJS API, to encode the JSON response as Message Pack. This method is usefull, when you have existing applications that need use the middleware, without changing the codebase very much.
 
 ```javascript
+const msgpackResponse = require('msgpack-response');
 
+app.use(msgpackResponse({auto_detect: true}));
+
+app.get('/test_json', (req, res) {
+	res.status(200).json({'messsage': 'a true test'});
+})
 ```
+
+**Note: Remember the add the header `Accept: application/x-msgpack` in the request.**
+
+Also it can have auto detection and transformation disabled. The middleware extends the `Response` object of the ExpressJS framework, by adding the `msgPack()` method to it. Then to return an encoded response, you just use the `Response.msgPack()` method that accepts the Javascript object as parameter. For example,
+
+```javascript
+const msgpackResponse = require('msgpack-response');
+
+app.use(msgpackResponse({auto_detect: false}));
+//or
+app.use(msgpackResponse());
+
+app.get('/test_msgpack', (req, res) {
+	res.status(200).msgPack({'messsage': 'a true test'});
+});
+```
+
+**Note: Intialize the middleware before the actual routes in the middleware chain to properly extend the `Response` Object.**
 
 ## Requirements
 Node.js >= 6.0
