@@ -5,6 +5,7 @@
 An implementation of [Message Pack](http://msgpack.org/) middleware for [ExpressJS](https://expressjs.com/).
 
 __Features__
+
 * Automatic Message Pack detection (from the HTTP headers) and encoding of all JSON messages to Message Pack.
 * Extension of the current ExpressJS API; Introducing the `Response.msgPack(jsObject)` method on the standard [ExpressJS Response](https://expressjs.com/en/4x/api.html#res) object.
 
@@ -21,7 +22,7 @@ app.get('/test_json', (req, res) {
 })
 ```
 
-**Note: Remember the add the header `Accept: application/x-msgpack` in the request.**
+> Note: Remember the add the header `Accept: application/x-msgpack` in the request.
 
 Also it can have auto detection and transformation disabled. The middleware extends the `Response` object of the ExpressJS framework, by adding the `msgPack()` method to it. Then to return an encoded response, you just use the `Response.msgPack()` method that accepts the Javascript object as parameter. For example,
 
@@ -37,7 +38,7 @@ app.get('/test_msgpack', (req, res) {
 });
 ```
 
-**Note: Intialize the middleware before the actual routes in the middleware chain to properly extend the `Response` Object.**
+> Note: Intialize the middleware before the actual routes in the middleware chain to properly extend the `Response` Object.
 
 ## Requirements
 Node.js >= 6.0
