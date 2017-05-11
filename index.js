@@ -9,7 +9,6 @@
  * Module dependencies.
  */
 const _ = require('lodash');
-const onHeaders = require('on-headers')
 const msgpackLite = require('msgpack-lite');
 
 
@@ -54,7 +53,7 @@ function mgsPackResponse(options) {
  * Default filter function.
  * @private
  */
-function shouldMsgPack(req, res) {
+function shouldMsgPack(req) {
   var acceptType = req.get('accept');
 
   return !_.isNil(acceptType) && acceptType === 'application/x-msgpack';

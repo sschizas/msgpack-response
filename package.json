@@ -20,7 +20,7 @@
   "author": "Mobiltron Inc <dev@mobiltron.com> (http://mobiltron.com/)",
   "contributors": [
     "Stavros Schizas <stavros@mobiltron.com> (http://mobiltron.com/)",
-    "Vassilios Karakoidas <v.karakoidas@mobiltron.com> (http://bkarak.wizhut.com/)"
+    "Vassilios Karakoidas <v.karakoidas@mobiltron.com> (http://mobiltron.com/)"
   ],
   "license": "MIT",
   "bugs": {
@@ -28,8 +28,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.4",
-    "msgpack-lite": "^0.1.26",
-    "on-headers": "^1.0.1"
+    "msgpack-lite": "^0.1.26"
   },
   "devDependencies": {
     "assert": "^1.4.1",
