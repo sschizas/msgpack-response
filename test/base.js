@@ -48,9 +48,7 @@ describe('Base Functionality', function() {
         .expect('Content-Type', /msgpack/)
         .expect(200)
         .end(function(err, res) {
-          assert.ifError(err);          
-          //let decoded_json = msgpackLite.decode(res.);
-          //assert.deepEqual(sample_json, decoded_json, `Decoded JSON is not equal with the original (${decoded_json} != ${sample_json})`);
+          assert.ifError(err);
           done();
         });
     });    
@@ -79,7 +77,6 @@ describe('Base Functionality', function() {
         .expect(200)
         .end(function(err, res) {
           assert.ifError(err);
-          //let decoded_json = msgpackLite.decode(res.text);          
           done();
         });
     });    
