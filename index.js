@@ -35,7 +35,7 @@ function mgsPackResponse(options) {
           res.setHeader('Content-Length', _.size(encodedResponse));
           res.send(encodedResponse);
         }
-      };
+      }
     }
 
     res.msgPack = function(jsObject) {
