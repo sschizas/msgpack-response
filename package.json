@@ -1,6 +1,6 @@
 {
   "name": "msgpack-response",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ExpressJS msgpack response middleware",
   "scripts": {
     "test": "mocha --reporter spec --check-leaks --bail test/",
