@@ -1,6 +1,6 @@
 /*!
  * msgpack-response
- * Copyright(c) 2017 Mobiltron Inc
+ * Copyright(c) 2017-present Mobiltron Inc
  * MIT Licensed
  */
 

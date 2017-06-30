@@ -1,6 +1,6 @@
 {
   "name": "msgpack-response",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "ExpressJS msgpack response middleware",
   "scripts": {
     "test": "mocha --reporter spec --check-leaks --bail test/",
@@ -15,7 +15,8 @@
     "expressjs",
     "msgpack",
     "middleware",
-    "json"
+    "json",
+    "packing"
   ],
   "author": "Mobiltron Inc <dev@mobiltron.com> (http://mobiltron.com/)",
   "contributors": [
