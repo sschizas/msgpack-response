@@ -28,17 +28,19 @@ function mgsPackResponse(options) {
   return function _mgsPackResponse(req, res, next) {
     if (shouldMsgPack(req) && autoDetect) {
       res.json = function(jsObject) {
+        var obj = jsObject;
+        var encodedResponse = msgpack.pack(obj);
         res.setHeader('Content-Type', 'application/x-msgpack');
         res.removeHeader('Content-Length');
-        var encodedResponse = msgpack.pack(jsObject);
         res.setHeader('Content-Length', _.size(encodedResponse));
         res.send(encodedResponse);
       }
     }
 
     res.msgPack = function(jsObject) {
+      var obj = jsObject;
+      var encodedResponse = msgpack.pack(obj);
       res.setHeader('Content-Type', 'application/x-msgpack');
-      var encodedResponse = msgpack.pack(jsObject);
       res.setHeader('Content-Length', _.size(encodedResponse));
       res.send(encodedResponse);      
     };
