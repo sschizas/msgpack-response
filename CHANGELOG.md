@@ -1,3 +1,18 @@
+1.0.2 Release notes
+=============================================================
+
+### API Breaking Changes
+
+* None.
+
+### Enhancements
+
+* None.
+
+### Bugfixes
+
+* Fixed exception *Maximum call stack size exceeded* thrown in some cases.
+
 1.0.1 Release notes
 =============================================================
 
