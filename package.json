@@ -28,13 +28,13 @@
   },
   "dependencies": {
     "lodash": "^4.17.4",
-    "msgpack-lite": "^0.1.26"
+    "msgpack": "^1.0.2"
   },
   "devDependencies": {
     "assert": "^1.4.1",
+    "express": "^4.15.2",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
-    "express": "^4.15.2",
     "supertest": "^3.0.0"
   },
   "files": [
