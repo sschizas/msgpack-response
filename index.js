@@ -1,6 +1,6 @@
 /*!
  * msgpack-response
- * Copyright(c) 2017 Mobiltron Inc
+ * Copyright(c) 2017-present Mobiltron Inc
  * MIT Licensed
  */
 
@@ -9,7 +9,7 @@
  * Module dependencies.
  */
 const _ = require('lodash');
-const msgpackLite = require('msgpack-lite');
+const msgpack = require('msgpack');
 
 
 /**
@@ -26,21 +26,21 @@ function mgsPackResponse(options) {
   }
 
   return function _mgsPackResponse(req, res, next) {
-    if (shouldMsgPack(req, res)) {
-      if (autoDetect) {
-        res.json = function(jsObject) {
-          res.setHeader('Content-Type', 'application/x-msgpack');
-          res.removeHeader('Content-Length');
-          var encodedResponse = msgpackLite.encode(jsObject);
-          res.setHeader('Content-Length', _.size(encodedResponse));
-          res.send(encodedResponse);
-        }
+    if (shouldMsgPack(req) && autoDetect) {
+      res.json = function(jsObject) {
+        var obj = jsObject;
+        var encodedResponse = msgpack.pack(obj);
+        res.setHeader('Content-Type', 'application/x-msgpack');
+        res.removeHeader('Content-Length');
+        res.setHeader('Content-Length', _.size(encodedResponse));
+        res.send(encodedResponse);
       }
     }
 
     res.msgPack = function(jsObject) {
+      var obj = jsObject;
+      var encodedResponse = msgpack.pack(obj);
       res.setHeader('Content-Type', 'application/x-msgpack');
-      var encodedResponse = msgpackLite.encode(jsObject);
       res.setHeader('Content-Length', _.size(encodedResponse));
       res.send(encodedResponse);      
     };
@@ -54,8 +54,7 @@ function mgsPackResponse(options) {
  * @private
  */
 function shouldMsgPack(req) {
-  var acceptType = req.get('accept');
-
+  let acceptType = req.get('accept');
   return !_.isNil(acceptType) && acceptType === 'application/x-msgpack';
 }
 

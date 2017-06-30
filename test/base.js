@@ -1,14 +1,14 @@
-const assert = require('assert');
 const _ = require('lodash');
+const assert = require('assert');
 const express = require('express');
 const request = require('supertest');
-const msgpackLite = require('msgpack-lite');
+const msgpack = require('msgpack');
 
 const msgPack = require('../index.js');
 
 let app = null;
 let sample_json = {"da test": "worked"};
-let sample_encoded = msgpackLite.encode(sample_json);
+let sample_encoded = msgpack.pack(sample_json);
 let sample_encoded_size = _.size(sample_encoded);
 
 
@@ -51,7 +51,7 @@ describe('Base Functionality', function() {
           assert.ifError(err);
           done();
         });
-    });    
+    });
   });
 
   describe('#Demo App Test Requests (msgPack() extension method)', function() {
