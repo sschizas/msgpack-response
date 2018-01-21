@@ -17,8 +17,8 @@ const msgpackResponse = require('msgpack-response');
 
 app.use(msgpackResponse({auto_detect: true}));
 
-app.get('/test_json', (req, res) {
-	res.status(200).json({'messsage': 'a true test'});
+app.get('/test_json', (req, res) => {
+	res.status(200).json({'message': 'a true test'});
 })
 ```
 
@@ -33,12 +33,12 @@ app.use(msgpackResponse({auto_detect: false}));
 //or
 app.use(msgpackResponse());
 
-app.get('/test_msgpack', (req, res) {
-	res.status(200).msgPack({'messsage': 'a true test'});
+app.get('/test_msgpack', (req, res) => {
+	res.status(200).msgPack({'message': 'a true test'});
 });
 ```
 
-> Note: Intialize the middleware before the actual routes in the middleware chain to properly extend the `Response` Object.
+> Note: Initialize the middleware before the actual routes in the middleware chain to properly extend the `Response` Object.
 
 ## Requirements
 Node.js >= 6.0
