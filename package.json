@@ -1,14 +1,14 @@
 {
   "name": "msgpack-response",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "ExpressJS msgpack response middleware",
   "scripts": {
-    "test": "mocha --reporter spec --check-leaks --bail test/",
-    "coverage": "istanbul cover _mocha -- -R spec"
+    "test": "npm mocha --reporter spec --check-leaks --bail test/",
+    "coverage": "npm istanbul cover _mocha -- -R spec"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/MobiltronInc/msgpack-response.git"
+    "url": "https://github.com/sschizas/msgpack-response"
   },
   "keywords": [
     "express",
@@ -18,16 +18,17 @@
     "json",
     "packing"
   ],
-  "author": "Mobiltron Inc <dev@mobiltron.com> (http://mobiltron.com/)",
+  "author": "Stavros Schizas <stavros.schizas@gmail.com> (https://stavrosschizas.com)",
   "contributors": [
-    "Stavros Schizas <stavros@mobiltron.com> (http://mobiltron.com/)",
-    "Vassilios Karakoidas <v.karakoidas@mobiltron.com> (http://mobiltron.com/)"
+    "Stavros Schizas <stavros.schizas@gmail.com> (https://stavrosschizas.com)",
+    "Vassilios Karakoidas <vassilios.karakoidas@gmail.com> (http://bkarak.wizhut.com)"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MobiltronInc/msgpack-response/issues"
+    "url": "https://github.com/sschizas/msgpack-response/issues"
   },
   "dependencies": {
+    "commander": "^6.2.0",
     "lodash": "^4.17.4",
     "msgpack": "^1.0.2"
   },
@@ -47,5 +48,5 @@
   "engines": {
     "node": ">= 6.0"
   },
-  "homepage": "https://github.com/MobiltronInc/msgpack-response#readme"
+  "homepage": "https://github.com/sschizas/msgpack-response"
 }
