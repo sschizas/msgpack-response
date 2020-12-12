@@ -1,5 +1,5 @@
 # msgpack-response
-[![Build Status](https://travis-ci.org/sschizas/msgpack-response.svg?branch=master)](https://travis-ci.org/sschizas/msgpack-response)
+![Node.js CI](https://github.com/sschizas/msgpack-response/workflows/Node.js%20CI/badge.svg)
 [![Dependency Status](https://david-dm.org/sschizas/msgpack-response.svg)](https://github.com/sschizas/msgpack-response)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
