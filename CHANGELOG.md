@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Bump assert from 1.5.0 to 2.0.0.
+- Bump actions/setup-node from v1 to v2.1.3.
 
 ## [1.0.3] - 2020-12-12
 ### Changed
